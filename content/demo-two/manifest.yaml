@@ -1,0 +1,14 @@
+title: "Demo Two"
+subtitle: "round-friendly demo"
+category: Faces
+type: watchface
+configurable: false
+version: "2.3"
+developer: "Your Name"
+website: "https://example.com"
+support: "you@example.com"
+compatibility: [basalt, chalk]
+collections: [all, starter-line]
+footer: |
+  Second demo entry, targeting colour (basalt) and round (chalk). Its .pbw is a
+  placeholder too, so Install will fail. Replace it with your own.

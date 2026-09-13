@@ -1,0 +1,6 @@
+Demo One
+a starter watchface
+
+Platform-specific description example: this text shows only on aplite (the original black & white Pebble). Use per-platform files to describe features that exist only on some builds — colour presets, heart rate, and so on.
+
+Keep each description under 1600 characters.

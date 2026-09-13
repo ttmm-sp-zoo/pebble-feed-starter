@@ -1,0 +1,15 @@
+# Your feed's public address — the URL users add as a source in the Pebble app.
+# Point it at the folder where you upload the contents of public/.
+base_url: "https://example.com/feed"
+
+developer:
+  id: "000000000000000000000001"   # any stable 24-hex string identifying you
+  name: "Your Name"
+
+category:
+  id: "528d3ef2dc7b5f580700000a"
+  name: "Faces"
+  slug: "faces"
+  color: "ffffff"
+
+max_screenshots: 5

@@ -1,0 +1,6 @@
+Demo Two
+round-friendly demo
+
+A second demo watchface so you can see how multiple apps and collections render in the feed. It targets colour (basalt) and the round display (chalk).
+
+Replace this folder with your own watchface.

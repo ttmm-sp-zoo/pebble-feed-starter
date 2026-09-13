@@ -1,0 +1,25 @@
+# One watchface = one folder under content/. This file describes it.
+# Replace this demo with your own. See README for the full schema.
+title: "Demo One"
+subtitle: "a starter watchface"
+category: Faces
+type: watchface          # watchface | watchapp
+configurable: false      # true only if the app really has a settings page in the phone app
+version: "1.0"
+developer: "Your Name"
+website: "https://example.com"
+support: "you@example.com"
+
+# Platforms YOU actually built (each needs a real .pbw build inside).
+# aplite=OG/Steel  basalt=Time/Time Steel  chalk=Time Round
+# diorite=Pebble 2  emery=Time 2  gabbro=Round 2  flint=Core 2 Duo
+compatibility: [aplite, basalt, diorite]
+
+# Which collections this face belongs to (free-form slugs you define).
+collections: [all, starter-line]
+
+# Shown verbatim inside the store description (price/trial/credits — your words).
+footer: |
+  Demo entry shipped with pebble-feed-starter. The .pbw behind it is a placeholder,
+  so Install will fail — everything else on this page is real generator output.
+  Replace this app with your own. Free / your terms here.

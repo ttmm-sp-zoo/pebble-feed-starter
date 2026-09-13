@@ -1,0 +1,6 @@
+Demo One
+a starter watchface
+
+This is the default description for Demo One. The generator uses default.txt for every platform unless a platform-specific file (e.g. basalt.txt) exists beside it — handy when one build has features the others don't.
+
+Keep each description under 1600 characters.
