@@ -1,0 +1,19 @@
+# pebble-feed-starter — route API calls to the PHP router; serve everything else static.
+RewriteEngine On
+
+# /api/v1/... -> index.php (works from any subdirectory)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/v1/ index.php [L,QSA]
+RewriteRule ^api/v1/.*$ index.php [L,QSA]
+
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+AddType application/octet-stream .pbw
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/png "access plus 7 days"
+  ExpiresByType application/json "access plus 5 minutes"
+</IfModule>
