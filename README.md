@@ -39,7 +39,7 @@ python3 generate.py
 # 3. upload the CONTENTS of public/ to that location (keep the hidden .htaccess!)
 ```
 
-Your feed URL is whatever you set as `base_url` (e.g. `https://apps.example.com/feed`).
+Your feed lives at `base_url` (e.g. `https://apps.example.com/feed`). **The address people add as a source is `base_url` + `/api`** (e.g. `https://apps.example.com/feed/api`) - the Pebble app appends `/v1/...` itself. Opening `base_url` in a browser shows a small page with that address and a one-tap link.
 
 ## Verifying
 
@@ -78,7 +78,7 @@ app for sideloading. No source needed — useful for a one-off, or before someon
 
 ### Three things that cost me time
 
-- **The source address must match, character for character**, what you set as `base_url` and
+- **The source address must match, character for character**: it is `base_url` + `/api`, and it must agree with
   what the feed actually serves. A trailing slash or a missing `https://` subscribes to nothing,
   silently.
 - **The app can hold a stale copy of a feed.** If your changes do not show up, reinstalling the

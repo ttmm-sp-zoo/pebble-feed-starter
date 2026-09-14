@@ -66,7 +66,32 @@ function sort_ids($ids, $sort) {
 }
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-if (!preg_match('#/api/v1/(.+)$#', $uri, $mm)) fail(404, 'not found');
+if (!preg_match('#/api/v1/(.+)$#', $uri, $mm)) {
+    // Not an API call. Apache serves this file as the directory index, so this is a
+    // person opening the feed root in a browser. Give them the one thing they need:
+    // the source address (base_url + /api), as a one-tap link and as text to paste.
+    $base   = isset($index['base_url']) ? rtrim($index['base_url'], '/') : '';
+    $source = $base . '/api';
+    $name   = isset($index['developer']['name']) ? $index['developer']['name'] : 'Feed';
+    $deep   = 'pebble://add-store-feed/' . rawurlencode($name) . '/' . rawurlencode($source);
+    $h = function($s) { return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); };
+    header('Content-Type: text/html; charset=utf-8');
+    echo '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+       . '<title>' . $h($name) . ' - Pebble appstore source</title>'
+       . '<style>body{font:16px/1.6 system-ui,-apple-system,sans-serif;margin:3rem auto;max-width:38rem;'
+       . 'padding:0 1rem;color:#111}a.btn{display:inline-block;padding:.7em 1.2em;background:#111;color:#fff;'
+       . 'border-radius:6px;text-decoration:none}code{background:#eee;padding:.1em .3em}ul{padding-left:1.2em}</style>'
+       . '<h1>' . $h($name) . '</h1>'
+       . '<p>An appstore source for the Pebble app.</p>'
+       . '<p><a class="btn" href="' . $h($deep) . '">Add to the Pebble app</a></p>'
+       . '<p>Or by hand: <b>Appstore Sources &rarr; Add Source</b>, paste <code>' . $h($source) . '</code></p>'
+       . '<p>What this feed serves:</p><ul>'
+       . '<li><a href="' . $h($base) . '/data/index.json">data/index.json</a> - the generated feed as plain files</li>'
+       . '<li><a href="' . $h($base) . '/api/v1/apps/dev/x">api/v1/apps/dev/x</a> - the whole catalog through the router</li>'
+       . '<li><a href="' . $h($base) . '/api/v1/home/watchfaces">api/v1/home/watchfaces</a> - the home payload</li>'
+       . '</ul><p style="color:#666;font-size:.9em">Served by <a href="https://github.com/ttmm-sp-zoo/pebble-feed-starter">pebble-feed-starter</a> (MIT). Edit this page in <code>index.php</code>.</p>';
+    exit;
+}
 $parts = explode('/', rtrim($mm[1], '/'));
 
 if ($parts[0]==='apps' && isset($parts[1]) && $parts[1]==='id' && isset($parts[2])) {
