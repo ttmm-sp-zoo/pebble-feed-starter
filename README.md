@@ -90,9 +90,14 @@ app for sideloading. No source needed — useful for a one-off, or before someon
 
 - The included `demo-one` / `demo-two` `.pbw` files are **placeholders** so the generator runs end-to-end. Replace them with real builds.
 - Set `configurable: true` in a manifest **only if the app really has a settings page**. The feed advertises it (`capabilities` and `latest_release.settings_page_state`), and the phone app offers a settings screen on that basis — claiming one you do not have gives your users a dead button.
+- `images/icon.png` becomes the small store icon (28 and 48 px). `featured.png`, when present, becomes the 80 and 144 px list tile; without it the icon is used for both. Supply both when a tile and an icon should differ.
 - IDs are derived stably from each folder name. Keep folder names stable to keep IDs (and any deep links) stable.
 - This is a community starter kit, provided as-is. It implements the public feed format; it is not affiliated with or endorsed by Core Devices.
 
 ## License
 
 MIT — see [LICENSE](LICENSE). Use it, fork it, ship your own store.
+
+**Trademark.** TTMM is a registered trademark of Albert Salamon. The MIT license above
+covers the code only and grants no rights to the TTMM name, logo or branding. If you
+publish a feed built with this starter, give it your own name.

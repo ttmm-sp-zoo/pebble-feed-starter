@@ -99,22 +99,34 @@ def build():
             screens[plat] = urls
 
         # icon / list image (square) + optional featured + optional banner
-        list_img, featured_url, banner_url = {}, None, None
+        list_img, icon_img, featured_url, banner_url = {}, {}, None, None
         os.makedirs(os.path.join(adir, "icons"), exist_ok=True)
         icon = os.path.join(d, "images", "icon.png")
         featured = os.path.join(d, "images", "featured.png")
         banner = os.path.join(d, "images", "banner.png")
         squaresrc = featured if os.path.exists(featured) else (icon if os.path.exists(icon) else None)
+        # the small store icon prefers images/icon.png; featured.png is a tile, not an icon
+        iconsrc = icon if os.path.exists(icon) else squaresrc
         if os.path.exists(featured):
             shutil.copy2(featured, os.path.join(adir, "icons", "featured.png"))
             featured_url = f"{BASE}/assets/{app_id}/icons/featured.png"
+
+        def square(src, size, dst):
+            """Centre-crop src to a square and save it at size x size."""
+            im0 = Image.open(src).convert("RGB")
+            s = min(im0.width, im0.height)
+            im = im0.crop(((im0.width - s) // 2, (im0.height - s) // 2,
+                           (im0.width + s) // 2, (im0.height + s) // 2))
+            im.resize((size, size), Image.LANCZOS).save(os.path.join(adir, "icons", dst))
+
         if squaresrc:
-            im0 = Image.open(squaresrc).convert("RGB")
             for size, key in ((144, "144x144"), (80, "80x80")):
-                s = min(im0.width, im0.height)
-                im = im0.crop(((im0.width - s) // 2, (im0.height - s) // 2, (im0.width + s) // 2, (im0.height + s) // 2)).resize((size, size), Image.LANCZOS)
-                im.save(os.path.join(adir, "icons", f"list-{size}.png"))
+                square(squaresrc, size, f"list-{size}.png")
                 list_img[key] = f"{BASE}/assets/{app_id}/icons/list-{size}.png"
+        if iconsrc:
+            for size, key in ((28, "28x28"), (48, "48x48")):
+                square(iconsrc, size, f"icon-{size}.png")
+                icon_img[key] = f"{BASE}/assets/{app_id}/icons/icon-{size}.png"
         if os.path.exists(banner):
             shutil.copy2(banner, os.path.join(adir, "icons", "banner.png"))
             banner_url = f"{BASE}/assets/{app_id}/icons/banner.png"
@@ -157,7 +169,7 @@ def build():
             "developer_claimed": True, "contactable": True,
             "header_images": ([{"720x320": banner_url, "orig": banner_url}] if banner_url else []),
             "hearts": int(m.get("hearts", 0)),
-            "icon_image": {"28x28": "", "48x48": ""},
+            "icon_image": {"28x28": icon_img.get("28x28", ""), "48x48": icon_img.get("48x48", "")},
             "id": app_id,
             "latest_release": {
                 "id": gen_id(app_id + version), "js_md5": None, "js_version": -1,
